@@ -16,57 +16,45 @@ public class budgeter {
         Scanner scan = new Scanner(System.in);
         Double income , expense;
         int expenseType;   
-        int incomeCategories = get_income_categories( scan );    
-        income = get_income( scan , incomeCategories ); 
+        title();
+        int incomeCategories = get_categories( scan , "income" );    
+        income = get_value( scan , incomeCategories , "income" ); 
         expenseType = get_expense_type( scan );
-        int expenseCategories = get_expense_categories( scan );
-        expense = get_expense( scan , expenseCategories );
+        int expenseCategories = get_categories( scan , "expense" );
+        expense = get_value( scan , expenseCategories , "expense" );
         calculate( income , expense , expenseType );
         scan.close();
     }
 
-    public static int get_income_categories( Scanner scan ) { //returns an empty Double array
+    public static void title() {
         System.out.println("This program asks for your monthly income and expenses, then tells you your net monthly income. ");
-        System.out.println("How many categories of income? ");
         System.out.println("");
-        int incomeCategories = Integer.parseInt(scan.nextLine());
-        return incomeCategories; 
-    } 
-
-    public static Double get_income( Scanner scan , int incomeCategories ) { //returns an income array  
-        Double income = 0.0;                                  
-        for( int i = 0 ; i < incomeCategories ; i++ ) {
-            System.out.println("Next income amount? ");    
-            Double input = Double.parseDouble( scan.nextLine() ); 
-            income += input;     
-        }
-        return income;
     }
 
-    public static int get_expense_type( Scanner scan ) { //gets expense type that will later be use by calculate()
+    public static int get_categories( Scanner scan , String type ) { //returns # of categories for either income or expense
+        System.out.println("How many categories of " + type + "? ");
+        int categories = Integer.parseInt(scan.nextLine());
+        return categories; 
+    } 
+
+    public static int get_expense_type( Scanner scan ) { //gets expense type that will later be used by calculate()
         System.out.println("");
         System.out.println("Enter 1) monthly or 2) daily expenses? ");
         return Integer.parseInt(scan.nextLine());
     }
 
-    public static int get_expense_categories( Scanner scan ) { //returns an empty Double array
-        System.out.println("How many categories of expense? ");
-        int expenseCategories = Integer.parseInt(scan.nextLine());
-        return expenseCategories;
-    }
-
-    public static Double get_expense( Scanner scan , int expenseCategories ) { //returns an expense array
-        Double expense = 0.0;
+    public static Double get_value( Scanner scan , int categories , String type ) { //returns a value for either income or expense
+        Double value = 0.0;
         Double input;
-        for( int i = 0 ; i < expenseCategories ; i++ ) {
-            System.out.println("Next expense amount? ");    
+        for( int i = 0 ; i < categories ; i++ ) {
+            System.out.println("Next " + type + " amount? ");    
             input = Double.parseDouble( scan.nextLine() ); 
-            expense += input;      
+            value += input;      
         }
-        return expense;
+        return value;
     }
 
-    public static void calculate( Double income , Double expense , int expenseType ) {
+    public static void calculate( Double income , Double expense , int expenseType ) { //makes all the final calculations
         Double total = 0.0;
         String string;
         System.out.println("");
